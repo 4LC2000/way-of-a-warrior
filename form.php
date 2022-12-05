@@ -4,7 +4,7 @@ $username = 'Dmitry';
 $password = 'Dmitry';
 ?>
 
-<form name="registration">
+<form id="registration">
     <label for="username">username</label>
     <input type="text" name="username" value="<?php echo $username ?>">
     <label for="password">password</label>
