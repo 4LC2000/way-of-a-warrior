@@ -6,22 +6,19 @@ $password = "Dmitry";
 $lang = ["ru" => "Привет!", "en" => "Hello!", "ua" => "Привіт!", "fr" => "Hé!", "de" => "Hallo!"];
 $users = [];
 
-$users["0"] = ["name" => "Ivan", "email => test@test.com", "lang" => "en"];
-$users["1"] = ["name" => "Kostya", "email => test2@test.com", "lang" => "en"];
-$users["2"] = ["name" => "Kolya", "email => test3@test.com", "lang" => "ua"];
-$users["3"] = ["name" => "Evgeny", "email => test4@test.com", "lang" => "en"];
-$users["4"] = ["name" => "Lera", "email => test5@test.com", "lang" => "ua"];
-$users["5"] = ["name" => "Stas", "email => test6@test.com", "lang" => "de"];
-$users["6"] = ["name" => "Abdyla", "email => test7@test.com", "lang" => "de"];
+$users["0"] = ["name" => "Ivan", "email" => "test@test.com", "lang" => "en"];
+$users["1"] = ["name" => "Lena", "email" => "test2@test.com", "lang" => "en"];
+$users["2"] = ["name" => "Kostya", "email" => "test3@test.com", "lang" => "ua"];
+$users["3"] = ["name" => "Kostya", "email" => "test4@test.com", "lang" => "en"];
+$users["4"] = ["name" => "Stas", "email" => "test5@test.com", "lang" => "fr"];
+$users["5"] = ["name" => "Sanya", "email" => "test6@test.com", "lang" => "de"];
+$users["6"] = ["name" => "Avraam", "email" => "test7@test.com", "lang" => "de"];
 
 // echo count($users);
 
 function sortDesc(array $InsertData): array
 {
     krsort($InsertData);
-    foreach ($InsertData as $key => $value) {
-        $InsertData['$key'] = $value;
-    }
     return $InsertData;
 }
 
@@ -38,10 +35,8 @@ function getMaxId(array $users): mixed
 function getMinNext(array $users)
 {
     ksort($users);
-    foreach ($users as $key => $value) {
-        $users[$key] = $value;
-    }
-    return $users["1"];
+    reset($users);
+    return next($users);
 }
 
 function getBeforeLast(array $users)
@@ -69,6 +64,52 @@ function greetings($users, $lang)
     }
 }
 
+function getDublicateUserName($users)
+{
+    $name = [];
+    foreach ($users as $key => $value) {
+        foreach ($value as $key => $val) {
+            if ($key === "name") {
+                array_push($name, $value[$key]);
+            }
+        }
+    }
+
+    foreach (array_count_values($name) as $key => $v) {
+        if ($v > 1) {
+            echo $key . ' ' . $v . '</br>';
+        }
+    }
+}
+
+function createLangGroup($users)
+{
+    $en = [];
+    $ru = [];
+    $ua = [];
+    $fr = [];
+    $de = [];
+
+    foreach ($users as $key => $value) {
+        if ($value["lang"] === "en") {
+            array_push($en, $value);
+        } elseif ($value["lang"] === "ru") {
+            array_push($ru, $value);
+        } elseif ($value["lang"] === "ua") {
+            array_push($ua, $value);
+        } elseif ($value["lang"] === "fr") {
+            array_push($fr, $value);
+        } elseif ($value["lang"] === "de") {
+            array_push($de, $value);
+        }
+    }
+    return [$en, $ru, $ua, $fr, $de];
+}
+
+function reverseUsers($users)
+{
+    return array_reverse($users);
+}
 ?>
 
 <form id="registration">
