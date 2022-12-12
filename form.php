@@ -95,19 +95,36 @@ function createLangGroup($users)
     $de = [];
 
     foreach ($users as $key => $value) {
-        if ($value["lang"] === "en") {
-            array_push($en, $value);
-        } elseif ($value["lang"] === "ru") {
-            array_push($ru, $value);
-        } elseif ($value["lang"] === "ua") {
-            array_push($ua, $value);
-        } elseif ($value["lang"] === "fr") {
-            array_push($fr, $value);
-        } elseif ($value["lang"] === "de") {
-            array_push($de, $value);
+        switch ($value["lang"]) {
+            case "en":
+                array_push($en, $value);
+                break;
+            case "ru":
+                array_push($ru, $value);
+                break;
+            case "ua":
+                array_push($ua, $value);
+                break;
+            case "fr":
+                array_push($fr, $value);
+                break;
+            case "de":
+                array_push($de, $value);
+                break;
         }
+        // if ($value["lang"] === "en") {
+        //     array_push($en, $value);
+        // } elseif ($value["lang"] === "ru") {
+        //     array_push($ru, $value);
+        // } elseif ($value["lang"] === "ua") {
+        //     array_push($ua, $value);
+        // } elseif ($value["lang"] === "fr") {
+        //     array_push($fr, $value);
+        // } elseif ($value["lang"] === "de") {
+        //     array_push($de, $value);
+        // }
     }
-    return [$en, $ru, $ua, $fr, $de];
+    return [$en];
 }
 
 function reverseUsers($users)
@@ -117,8 +134,9 @@ function reverseUsers($users)
 // - в переменной $date лежит дата формата '31-12-2020'. Преобразуйте эту дату в формат '2020.12.31'.
 function convertData($date)
 {
-    return str_replace("-", ".", $date);
+    return date("Y.m.d", strtotime($date));
 }
+var_dump(createLangGroup($users));
 // - дана строка 'london is the capital of great britain'. Сделайте из нее строку 'London Is The Capital Of Great Britain'
 function convertFirstCharToUpperCase($london)
 {
@@ -135,26 +153,25 @@ function deleteInt($randomStr)
     return print(preg_replace("/[0-9]/", '', $randomStr));
 }
 
-function validateText($text)
-{
+// function validateText($text)
+// {
 
-    $limiter = 80;
-    $strings = explode("<br>", wordwrap($text, $limiter, "<br>"));
+//     $limiter = 80;
+//     $strings = explode("<br>", wordwrap($text, $limiter, "<br>"));
 
 
-    foreach ($strings as $key => $string) {
-        $space = $limiter - strlen($string);
-        $words = str_word_count($string, 1, "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя:-,.«»—");
-        foreach ($words as $key => $word) {
-            if (!($key == array_key_last($words))) {
-                $words[$key] = $word .  " ";
-                implode(" ", $words);
-            }
-        }
-        echo "<pre>";
-        var_dump($words);
-    }
-}
+//     foreach ($strings as $key => $string) {
+//         $space = $limiter - strlen($string);
+//         $words = str_word_count($string, 1, "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя:-,.«»—");
+//         foreach ($words as $key => $word) {
+//             if (!($key == array_key_last($words))) {
+//                 $words[$key] = $word .  " ";
+//                 implode(" ", $words);
+//             }
+//         }
+//         echo "<pre>";
+//     }
+// }
 
 ?>
 
