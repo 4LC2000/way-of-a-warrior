@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 $language = ["ua", "ru", "en", "fr", "de"];
 $username = "1";
@@ -112,17 +114,6 @@ function createLangGroup($users)
                 array_push($de, $value);
                 break;
         }
-        // if ($value["lang"] === "en") {
-        //     array_push($en, $value);
-        // } elseif ($value["lang"] === "ru") {
-        //     array_push($ru, $value);
-        // } elseif ($value["lang"] === "ua") {
-        //     array_push($ua, $value);
-        // } elseif ($value["lang"] === "fr") {
-        //     array_push($fr, $value);
-        // } elseif ($value["lang"] === "de") {
-        //     array_push($de, $value);
-        // }
     }
     return [$en];
 }
@@ -136,7 +127,6 @@ function convertData($date)
 {
     return date("Y.m.d", strtotime($date));
 }
-var_dump(createLangGroup($users));
 // - дана строка 'london is the capital of great britain'. Сделайте из нее строку 'London Is The Capital Of Great Britain'
 function convertFirstCharToUpperCase($london)
 {
@@ -173,13 +163,45 @@ function deleteInt($randomStr)
 //     }
 // }
 
+
+
+$username = $_POST["username"];
+$password = $_POST["password"];
+$userData = [];
+
+define('ROOT_PATH', dirname(__FILE__));
+
+$file = fopen(ROOT_PATH . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . "users.txt", 'a+') or die("failed to open file");
+
+while (!feof($file)) {
+    $str = explode(" ", fgets($file));
+    array_push($userData, [$str[0] => $str[1]]);
+}
+
+foreach ($userData as $key => $value) {
+    foreach ($value as $k => $v) {
+        if ($k ==  $username && $v == $password) {
+            $i = date('l jS \of F Y h:i:s A');
+            print($k);
+            $count = fopen(ROOT_PATH . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . $k . ".txt", 'a+');
+            $string = file_get_contents(ROOT_PATH . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . $k . ".txt");
+            $word = explode(PHP_EOL, $string);
+            fwrite($count, count($word) . "-" . $i . PHP_EOL);
+        }
+    }
+}
+echo "<pre>";
+
+
+fclose($file);
+
 ?>
 
-<form id="registration">
+<form id="registration" action="/form.php" method="POST">
     <label for="username">username</label>
     <input type="text" name="username" value="<?php echo $username ?>">
     <label for="password">password</label>
-    <input type="password" name="password" value="<?php echo $password ?>">
+    <input type="text" name="password" value="<?php echo $password ?>">
     <select>
         <option value="<?php $language["0"] ?>"><?php echo $language["0"] ?></option>
         <option value="<?php $language["1"] ?>"><?php echo $language["1"] ?></option>
@@ -187,5 +209,5 @@ function deleteInt($randomStr)
         <option value="<?php $language["3"] ?>"><?php echo $language["3"] ?></option>
         <option value="<?php $language["4"] ?>"><?php echo $language["4"] ?></option>
     </select>
-    <button form="registration">sign up</button>
+    <button form="registration">sign in</button>
 </form>
